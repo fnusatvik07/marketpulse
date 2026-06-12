@@ -1,0 +1,27 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="02_agent_graph" id="02_agent_graph">
+    <mxGraphModel dx="800" dy="600" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="650" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="c2" value="The agent graph (graph.py)" style="text;html=1;align=left;verticalAlign=middle;fontSize=15;fontColor=#1a1a1a;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="20" y="10" width="420" height="24" as="geometry"/></mxCell>
+<mxCell id="c3" value="START" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1C3C3C;strokeColor=#1C3C3C;fontSize=12;fontColor=#FFFFFF;align=center;verticalAlign=middle;arcSize=10;dashed=0;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="160" width="90" height="44" as="geometry"/></mxCell>
+<mxCell id="c4" value="summarize
+(short-term memory)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FDF1DC;strokeColor=#B07C1F;fontSize=12;fontColor=#1a1a1a;align=center;verticalAlign=middle;arcSize=10;dashed=0;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="220" y="150" width="150" height="64" as="geometry"/></mxCell>
+<mxCell id="c5" value="agent
+(LLM + tools bound)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E9F7F2;strokeColor=#10A37F;fontSize=12;fontColor=#1a1a1a;align=center;verticalAlign=middle;arcSize=10;dashed=0;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="440" y="150" width="140" height="64" as="geometry"/></mxCell>
+<mxCell id="c6" value="tools
+(Oxylabs scraping)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDF1FB;strokeColor=#4169E1;fontSize=12;fontColor=#1a1a1a;align=center;verticalAlign=middle;arcSize=10;dashed=0;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="650" y="150" width="140" height="64" as="geometry"/></mxCell>
+<mxCell id="c7" value="END" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1C3C3C;strokeColor=#1C3C3C;fontSize=12;fontColor=#FFFFFF;align=center;verticalAlign=middle;arcSize=10;dashed=0;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470" y="320" width="80" height="44" as="geometry"/></mxCell>
+<mxCell id="c8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#666666;fontSize=10;fontColor=#444444;strokeWidth=1.5;dashed=0;curved=0;" edge="1" parent="1" source="c3" target="c4"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="c9" value="always" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#666666;fontSize=10;fontColor=#444444;strokeWidth=1.5;dashed=0;curved=0;" edge="1" parent="1" source="c4" target="c5"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="c10" value="tool call?" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#10A37F;fontSize=10;fontColor=#444444;strokeWidth=1.5;dashed=0;curved=0;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;" edge="1" parent="1" source="c5" target="c6"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="c11" value="result" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#4169E1;fontSize=10;fontColor=#444444;strokeWidth=1.5;dashed=0;curved=0;exitX=0;exitY=0.7;exitDx=0;exitDy=0;entryX=1;entryY=0.7;entryDx=0;entryDy=0;" edge="1" parent="1" source="c6" target="c5"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="c12" value="final answer" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#666666;fontSize=10;fontColor=#444444;strokeWidth=1.5;dashed=0;curved=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="c5" target="c7"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="c13" value="loop until the agent has enough data" style="text;html=1;align=center;verticalAlign=middle;fontSize=10;fontColor=#888888;fontStyle=0;" vertex="1" parent="1"><mxGeometry x="600" y="240" width="240" height="20" as="geometry"/></mxCell>
+<mxCell id="c14" value="folds old messages into a summary
+when history exceeds 12 messages" style="text;html=1;align=center;verticalAlign=middle;fontSize=10;fontColor=#888888;fontStyle=0;" vertex="1" parent="1"><mxGeometry x="180" y="240" width="240" height="20" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

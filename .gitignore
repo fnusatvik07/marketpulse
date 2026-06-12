@@ -1,0 +1,11 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+checkpoints.sqlite
+downloads/
+node_modules/
+frontend/dist/
+.ipynb_checkpoints/
+.DS_Store
+TEACHING_GUIDE.md

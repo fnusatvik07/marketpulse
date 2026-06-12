@@ -1,0 +1,503 @@
+{
+ "job": {
+  "aggregate_name": null,
+  "browser_instructions": null,
+  "callback_url": null,
+  "client_id": 144322,
+  "client_notes": null,
+  "content_encoding": "utf-8",
+  "context": [
+   {
+    "key": "force_headers",
+    "value": false
+   },
+   {
+    "key": "force_cookies",
+    "value": false
+   },
+   {
+    "key": "hc_policy",
+    "value": true
+   },
+   {
+    "key": "autoselect_variant",
+    "value": true
+   },
+   {
+    "key": "check_empty_geo",
+    "value": null
+   },
+   {
+    "key": "safe_search",
+    "value": true
+   },
+   {
+    "key": "currency",
+    "value": null
+   },
+   {
+    "key": "successful_parse_status_codes",
+    "value": []
+   }
+  ],
+  "created_at": "2026-06-12 14:30:33",
+  "domain": "in",
+  "geo_location": null,
+  "id": "7471207319007667201",
+  "limit": 10,
+  "locale": null,
+  "markdown": false,
+  "pages": 1,
+  "parse": true,
+  "parser_preset": null,
+  "parser_type": null,
+  "parsing_instructions": null,
+  "query": "B0FC2YFSN4",
+  "render": null,
+  "session_info": null,
+  "source": "amazon_product",
+  "start_page": 1,
+  "status": "done",
+  "statuses": [],
+  "storage_type": null,
+  "storage_url": null,
+  "subdomain": "www",
+  "updated_at": "2026-06-12 14:30:33",
+  "url": null,
+  "user_agent_type": "desktop",
+  "xhr": false
+ },
+ "results": [
+  {
+   "content": {
+    "ads": [
+     {
+      "asin": "B0D3DH8TSC",
+      "images": [
+       "https://images-eu.ssl-images-amazon.com/images/I/71ndbdVgC7L._AC_UL165_SR165,165_.jpg"
+      ],
+      "is_prime_eligible": false,
+      "location": "carousel",
+      "pos": 1,
+      "price": 1299,
+      "price_upper": 1299,
+      "rating": 0,
+      "reviews_count": 40,
+      "title": "Boat Airdopes 300, Cinematic Spatial Audio, 50HRS Battery, 4Mic AI ENx, Fast Charge, App Support, Low Latency, IPX4, v5.3 Bluetooth Earbuds, TWS Ear Buds Wireless Earphones with mic (Gunmetal Black)",
+      "type": "organic_also_viewed"
+     },
+     {
+      "asin": "B0BW8TXJJ2",
+      "images": [
+       "https://images-eu.ssl-images-amazon.com/images/I/81-TGXuOMAL._AC_UL165_SR165,165_.jpg"
+      ],
+      "is_prime_eligible": false,
+      "location": "carousel",
+      "pos": 2,
+      "price": 1799,
+      "price_upper": 1799,
+      "rating": 0,
+      "reviews_count": 41,
+      "title": "Boat Nirvana Ion, 120HRS Battery, Crystal Bionic Sound w/Dual EQ Modes, 4Mics ENx, App Support, Low Latency, IPX4, v.5.2 Bluetooth Earbuds, TWS Ear Buds Wireless Earphones with mic (Charcoal Black)",
+      "type": "organic_also_viewed"
+     },
+     {
+      "asin": "B0C3ZYFZ77",
+      "images": [
+       "https://images-eu.ssl-images-amazon.com/images/I/512jrg8-68L._AC_UL165_SR165,165_.jpg"
+      ],
+      "is_prime_eligible": false,
+      "location": "carousel",
+      "pos": 3,
+      "price": 899,
+      "price_upper": 899,
+      "rating": 0,
+      "reviews_count": 38,
+      "title": "Boat Airdopes Joy, 35Hrs Battery, Fast Charge, IWP Tech, Low Latency, 2Mic ENx, Type-C Port, v5.3 Bluetooth Earbuds, TWS Ear Buds Wireless Earphones with mic(Jet Black)",
+      "type": "organic_also_viewed"
+     },
+     {
+      "asin": "B0F8BVSK21",
+      "images": [
+       "https://images-eu.ssl-images-amazon.com/images/I/71O+4zDSk-L._AC_UL165_SR165,165_.jpg"
+      ],
+      "is_prime_eligible": false,
+      "location": "carousel",
+      "pos": 4,
+      "price": 999,
+      "price_upper": 999,
+      "rating": 0,
+      "reviews_count": 39,
+      "title": "Boat Airdopes 141 Gen 2, 4 Mics ENx Tech, 48 Hrs Playback, Free Music Streaming, Fast Charge, Low Latency, IPX4, v5.4 Bluetooth Earbuds, TWS Ear Buds Wireless Earphones with mic (Active Black)",
+      "type": "organic_also_viewed"
+     },
+     {
+      "asin": "B0DZXX6SKP",
+      "images": [
+       "https://images-eu.ssl-images-amazon.com/images/I/61OhaIzbpML._AC_UL165_SR165,165_.jpg"
+      ],
+      "is_prime_eligible": false,
+      "location": "carousel",
+      "pos": 5,
+      "price": 999,
+      "price_upper": 999,
+      "rating": 0,
+      "reviews_count": 37,
+      "title": "Boat Airdopes Plus 311, Glass Design, ENx Tech, Fast Charge, 50 Hrs Battery, Stream Ad Free Music via App Support Bluetooth Earbuds, TWS Ear Buds Wireless Earphones with mic (Crimson Red)",
+      "type": "organic_also_viewed"
+     },
+     {
+      "asin": "B0CQJZD55X",
+      "images": [
+       "https://images-eu.ssl-images-amazon.com/images/I/51ptyuMXIeL._AC_UL165_SR165,165_.jpg"
+      ],
+      "is_prime_eligible": false,
+      "location": "carousel",
+      "pos": 6,
+      "price": 1199,
+      "price_upper": 1199,
+      "rating": 0,
+      "reviews_count": 38,
+      "title": "Noise Buds N1 Truly Wireless Earbuds with Chrome Finish, 40H of Playtime, Quad Mic with ENC, Ultra Low Latency Gaming (Up to 40 Ms), Instacharge(10 Min=120 Min), Bluetooth V5.3(Ice Blue)",
+      "type": "organic_also_viewed"
+     }
+    ],
+    "answered_questions_count": 0,
+    "asin": "B0FC2YFSN4",
+    "asin_in_url": "B0FC2YFSN4",
+    "brand": "boAt",
+    "bullet_points": "Quad Mics with ENx Technology: ENx-powered quad mics in these earbuds eliminate noise for clear calls regardless of your location. Converse in caf\u00e9s and on public transport hands-free with your Airdopes.\nPowerful 13mm Drivers: Tune into thumping bass-rich boAt Signature Sound from the dual 13 mm drivers. Experience every beat to the fullest!\nUp to 40 hours of Playback: Groove uninterrupted with the boAt Airdopes 219 TWS Earbuds. Listen to songs and podcasts while unwinding for up to 40 hours.\nBEAST Mode: Immerse in the virtual world with the 45 ms low-latency gaming BEAST mode. Enjoy lag-free gaming while playing solo or with your squad.\nASAP Charge: Charge your buds for 10 minutes and keep binge-watching for 120 minutes. Thanks to ASAP Charge, you can resume your favorite web series and tick it off your watchlist.\nIPX4 Water Resistance: No matter where you are, keep enjoying audio content as your Airdopes feature IPX4 resistance to prevent sweat and water splashes from damaging them.\nBluetooth v5.4: Advanced Bluetooth v5.4 in Airdopes 219 makes it easy to just pop in your buds at home or on the go without the hassle of tangled wires.",
+    "buy_it_with": [
+     {
+      "asin": "B0D3DH8TSC",
+      "price": 1299,
+      "title": "Boat Airdopes 300, Cinematic Spatial Audio, 50HRS Battery, 4Mic AI ENx, Fast Charge, App Support, Low Latency, IPX4, v5.3 Bluetooth Earbuds, TWS Ear Buds Wireless Earphones with mic (Gunmetal Black)"
+     }
+    ],
+    "buybox": [
+     {
+      "delivery_details": [
+       {
+        "date": {
+         "by": "Monday, 15 June"
+        },
+        "type": "FREE delivery"
+       },
+       {
+        "date": {
+         "by": "Tomorrow"
+        },
+        "type": "Or fastest delivery"
+       }
+      ],
+      "price": 899,
+      "seller_id": "AJ6SIZC8YQDZX",
+      "seller_name": "Clicktech Retail Private Ltd",
+      "seller_url": "https://www.amazon.com/gp/help/seller/at-a-glance.html/ref=dp_merchant_link?ie=UTF8&seller=AJ6SIZC8YQDZX&asin=B0FC2YFSN4&ref_=dp_merchant_link&isAmazonFulfilled=1",
+      "ships_from_name": "Clicktech Retail Private Ltd",
+      "stock": "In stock"
+     }
+    ],
+    "category": [
+     {
+      "ladder": [
+       {
+        "name": "Electronics",
+        "url": "/electronics/b/ref=dp_bc_1?ie=UTF8&node=976419031"
+       },
+       {
+        "name": "Headphones, Earbuds & Accessories",
+        "url": "/Headphones-Earbuds-Accessories/b/ref=dp_bc_2?ie=UTF8&node=29561348031"
+       },
+       {
+        "name": "Headphones",
+        "url": "/headphones/b/ref=dp_bc_3?ie=UTF8&node=1388921031"
+       },
+       {
+        "name": "In-Ear",
+        "url": "/b/ref=dp_bc_4?ie=UTF8&node=14146389031"
+       }
+      ]
+     }
+    ],
+    "coupon": "",
+    "currency": "INR",
+    "delivery": [
+     {
+      "date": {
+       "by": "Monday, 15 June"
+      },
+      "type": "FREE delivery"
+     },
+     {
+      "date": {
+       "by": "Tomorrow"
+      },
+      "type": "Or fastest delivery"
+     }
+    ],
+    "description": "Relax to your playlist tunes with the boAt Airdopes 219 TWS Earbuds. With 40 hours of playtime, these earbuds ensure uninterrupted audio entertainment. So, you can game and stream without frequent charging hassles. In addition, four ENx\u2122-enabled powerful mics enable you to answer calls on the go without disruptive background noise. Catch up on your watchlist with the bass-heavy boAt Signature Sound from the 13 mm drivers and experience enthralling audio. In case of low battery, ASAP\u2122 Charge the earbuds to get 120 minutes of performance after 10 minutes of charging. As soon as you flip open the case lid, your Airdopes get connected with IWP\u2122 technology. Moreover, you can hustle effortlessly with voice assistant activation using your Airdopes. Make calls, check the local weather updates, etc., with voice commands. Also, the 45 ms low latency of BEAST\u2122 mode eliminates lag for a realistic feel while playing games. Airdopes 219 sports an IPX4-resistant design, ensuring sweat and splashes won't get in the way of your grooving!",
+    "developer_info": {},
+    "discount_percentage": 77,
+    "featured_merchant": {
+     "is_amazon_fulfilled": true,
+     "link": "/gp/help/seller/at-a-glance.html/ref=dp_merchant_link?ie=UTF8&seller=AJ6SIZC8YQDZX&asin=B0FC2YFSN4&ref_=dp_merchant_link&isAmazonFulfilled=1",
+     "name": "Clicktech Retail Private Ltd",
+     "seller_id": "AJ6SIZC8YQDZX",
+     "shipped_from": "Amazon"
+    },
+    "frequently_bought_together": [
+     {
+      "asin": "B0FC2YFSN4"
+     },
+     {
+      "asin": "B0D3DH8TSC"
+     }
+    ],
+    "has_videos": true,
+    "images": [
+     "https://m.media-amazon.com/images/I/61oPWuyuT2L._SL1500_.jpg",
+     "https://m.media-amazon.com/images/I/71RCNyqj+FL._SL1500_.jpg",
+     "https://m.media-amazon.com/images/I/718i+Cf0psL._SL1500_.jpg",
+     "https://m.media-amazon.com/images/I/619NI30MY4L._SL1500_.jpg",
+     "https://m.media-amazon.com/images/I/71OnGZAUZGL._SL1500_.jpg",
+     "https://m.media-amazon.com/images/I/614PkMoxdhL._SL1500_.jpg",
+     "https://m.media-amazon.com/images/I/61VDRJkwSaL._SL1500_.jpg",
+     "https://m.media-amazon.com/images/I/61jSaGKsZvL._SL1500_.jpg"
+    ],
+    "is_prime_eligible": false,
+    "manufacturer": "boAt",
+    "max_quantity": 30,
+    "page": 1,
+    "page_type": "Product",
+    "parent_asin": "B0FKMX4TDG",
+    "parse_status_code": 12000,
+    "price": 899,
+    "price_buybox": 899,
+    "price_initial": 0,
+    "price_shipping": 0,
+    "price_sns": 0,
+    "price_strikethrough": 3990,
+    "price_upper": 899,
+    "pricing_count": 1,
+    "pricing_str": "",
+    "pricing_url": "https://www.amazon.in/gp/offer-listing/B0FC2YFSN4?startIndex=0",
+    "product_details": {
+     "age_range_description": "Adult",
+     "asin": "B0FC2YFSN4",
+     "audio_driver_type": "Dynamic Driver",
+     "battery_average_life": "40 Hours",
+     "battery_charge_time": "35 Minutes",
+     "best_sellers_rank": "#2 in Electronics (See Top 100 in Electronics) #2 in In-Ear Headphones",
+     "bluetooth_version": "5.4",
+     "box_contents": "Additional Earmuffs, Cable, TWS Earbuds",
+     "brand_name": "boAt",
+     "colour": "Forest Sage",
+     "compatible_devices": "Cellphones, Tablets",
+     "control_method": "Touch",
+     "country_of_origin": "India",
+     "customer_reviews": "3.9 3.9 out of 5 stars (5,429) 3.9 out of 5 stars",
+     "earpiece_shape": "In-Ear",
+     "enclosure_material": "TWS",
+     "frequency_range": "20Hz - 20,000Hz",
+     "headphone_form_factor": "In Ear",
+     "headphone_jack": "No Jack",
+     "headphones_ear_placement": "In Ear",
+     "importer_contact_information": "Imagine Marketing Ltd",
+     "is_autographed": "No",
+     "item_type_name": "TWS Earbuds",
+     "item_weight_unit_of_measure": "100 Grams",
+     "manufacturer": "Imagine Marketing Ltd, info@imaginemarketingindia.com",
+     "manufacturer_contact_information": "info@imaginemarketingindia.com",
+     "model_name": "Airdopes",
+     "model_number": "HEADPHONES",
+     "network_connectivity_technology": "Bluetooth",
+     "noise_control": "Environmental Noise Cancellation",
+     "number_of_items": "3",
+     "packer_contact_information": "Imagine Marketing Ltd",
+     "product_features": "Quad Mics with ENx Technology, Powerful 13mm Drivers, Up to 40 hours of Playback, BEAST Mode, ASAP Charge, IPX4 Water Resistance, Bluetooth v5.4",
+     "series_number": "20",
+     "specific_uses_for_product": "Entertainment, Travel",
+     "unit_count": "1 Piece",
+     "warranty_description": "1 year warranty from the date of purchase",
+     "water_resistance_level": "Water Resistant",
+     "wireless_technology_type": "Bluetooth"
+    },
+    "product_name": "Boat Airdopes 219, 4Mics ENx, 40H Battery, Best in Segment for Calling, Stream Ad Free Music via App Support, Bluetooth Earbuds, TWS Ear Buds Wireless Earphones with mic (Forest Sage)",
+    "rating": 3.9,
+    "rating_stars_distribution": [
+     {
+      "percentage": 52,
+      "rating": 5
+     },
+     {
+      "percentage": 22,
+      "rating": 4
+     },
+     {
+      "percentage": 8,
+      "rating": 3
+     },
+     {
+      "percentage": 3,
+      "rating": 2
+     },
+     {
+      "percentage": 15,
+      "rating": 1
+     }
+    ],
+    "reviews": [
+     {
+      "author": "Priya",
+      "content": "I\u2019m really impressed with these earbuds. The sound quality is excellent, with clear audio and good bass. Calling performance is also very good\u2014the voice is clear on both sides. The battery life is strong and lasts long enough for daily use. Overall, a great product and definitely worth it!\u201d",
+      "helpful_count": 3,
+      "id": "R6QYPUL1ZQ6FH",
+      "is_verified": true,
+      "product_attributes": "Colour: Forest Sage",
+      "rating": 5,
+      "timestamp": "Reviewed in India 4 June 2026",
+      "title": "Excellent Sound, Clear Calls & Long Battery!\u201d"
+     },
+     {
+      "author": "Dev Bhardwaj",
+      "content": "One of the best in the range and I am saying this with confidence because I have many tws with me of this range these have good and loud sound with no distorsion on high volume the only con can be the low battery backup but they do support fast charging. Also the build quality is amazing like I have dropped these so many times and they are still holding great.",
+      "helpful_count": 11,
+      "id": "RJZVMLM9NJ00M",
+      "is_verified": true,
+      "product_attributes": "Colour: Carbon Black",
+      "rating": 4,
+      "timestamp": "Reviewed in India 7 May 2026",
+      "title": "Good product with great build just a bit low on battery side."
+     },
+     {
+      "author": "Pari",
+      "content": "Its very nice and has a good battery back up and great sound quality",
+      "helpful_count": 1,
+      "id": "R1UKEMO129QTXH",
+      "is_verified": true,
+      "product_attributes": "Colour: Carbon Black",
+      "rating": 4,
+      "timestamp": "Reviewed in India 19 May 2026",
+      "title": "Good quality sound"
+     },
+     {
+      "author": "Prajesh",
+      "content": "Good , nice , vule for money , comfort but the seller is calling me many times for rating it's very disturbed",
+      "helpful_count": 2,
+      "id": "R8KFMPFDGAO0R",
+      "is_verified": true,
+      "product_attributes": "Colour: Ivory Mist",
+      "rating": 3,
+      "timestamp": "Reviewed in India 26 May 2026",
+      "title": "Seller disturb many times for rating"
+     },
+     {
+      "author": "Joseph Reddy",
+      "content": "It's a good product and also very comfortable for ears toch response is good and the quality of the mic is good and it is reliable product for movie and music lovers",
+      "id": "R37D83BCLBOEK5",
+      "is_verified": true,
+      "product_attributes": "Colour: Forest Sage",
+      "rating": 4,
+      "timestamp": "Reviewed in India 30 May 2026",
+      "title": "It is a good product and good for movies and music"
+     },
+     {
+      "author": "UMA SHANKAR",
+      "content": "The quality of the sound is quite good.... But the charge doesn't stand for long.... Overall a good product",
+      "helpful_count": 2,
+      "id": "R2TY14T17POCFU",
+      "is_verified": true,
+      "product_attributes": "Colour: Forest Sage",
+      "rating": 3,
+      "timestamp": "Reviewed in India 4 June 2026",
+      "title": "A good product"
+     },
+     {
+      "author": "Ajimsha muhammed",
+      "content": "Avarage quality. The sound quality is not that good",
+      "helpful_count": 3,
+      "id": "R21NOZEU5MEAHJ",
+      "is_verified": true,
+      "product_attributes": "Colour: Forest Sage",
+      "rating": 3,
+      "timestamp": "Reviewed in India 31 May 2026",
+      "title": "Avarage"
+     },
+     {
+      "author": "Vaibhav Singh",
+      "content": "The product is very good in quality and the overall the sound quality is also very smooth . Clarity of the audio is also very precise . Overall a nice product",
+      "helpful_count": 2,
+      "id": "R2S5I75J2LTGQF",
+      "is_verified": true,
+      "product_attributes": "Colour: Carbon Black",
+      "rating": 4,
+      "timestamp": "Reviewed in India 16 May 2026",
+      "title": "Product with nice sound and build quality"
+     }
+    ],
+    "reviews_count": 5429,
+    "sales_rank": [
+     {
+      "ladder": [
+       {
+        "name": "Electronics",
+        "url": "/gp/bestsellers/electronics/ref=pd_zg_ts_electronics"
+       }
+      ],
+      "rank": 2
+     },
+     {
+      "ladder": [
+       {
+        "name": "In-Ear Headphones",
+        "url": "/gp/bestsellers/electronics/14146389031/ref=pd_zg_hrsr_electronics"
+       }
+      ],
+      "rank": 2
+     }
+    ],
+    "sales_volume": "5K+ bought",
+    "sns_discounts": [],
+    "stock": "In stock",
+    "store_url": "/stores/boAt/page/C45AC738-6190-4344-A3E4-CDF7B426BC8C?lp_asin=B0FC2YFSN4&ref_=ast_bln&store_ref=bl_ast_dp_brandlogo_sto",
+    "title": "Boat Airdopes 219, 4Mics ENx, 40H Battery, Best in Segment for Calling, Stream Ad Free Music via App Support, Bluetooth Earbuds, TWS Ear Buds Wireless Earphones with mic (Forest Sage)",
+    "url": "https://www.amazon.in/dp/B0FC2YFSN4?th=1&psc=1&language=en_IN",
+    "variation": [
+     {
+      "asin": "B0FC2YFSN4",
+      "dimensions": {
+       "Colour": "Forest Sage"
+      },
+      "selected": true
+     },
+     {
+      "asin": "B0FC2Z19RX",
+      "dimensions": {
+       "Colour": "Ivory Mist"
+      },
+      "selected": false
+     },
+     {
+      "asin": "B0FC2Y3XGV",
+      "dimensions": {
+       "Colour": "Carbon Black"
+      },
+      "selected": false
+     }
+    ],
+    "whats_in_the_box": "TWS Earbuds, Cable, Additional Earmuffs"
+   },
+   "created_at": "2026-06-12 14:30:33",
+   "is_render_forced": false,
+   "job_id": "7471207319007667201",
+   "page": 1,
+   "parser_preset": null,
+   "parser_type": "",
+   "status_code": 200,
+   "type": "parsed",
+   "updated_at": "2026-06-12 14:30:35",
+   "url": "https://www.amazon.in/dp/B0FC2YFSN4?th=1&psc=1&language=en_IN"
+  }
+ ]
+}

@@ -1,0 +1,26 @@
+[project]
+name = "marketpulse"
+version = "1.0.0"
+description = "MarketPulse: AI market intelligence agent with LangGraph short-term memory"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "langgraph>=0.4",
+    "langchain>=0.3",
+    "langchain-openai>=0.3",
+    "langgraph-checkpoint-sqlite>=2.0",
+    "langgraph-checkpoint-postgres>=2.0",
+    "psycopg[binary,pool]>=3.2",
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.34",
+    "requests>=2.32",
+    "python-dotenv>=1.0",
+    "rich>=13.0",
+    "pydantic>=2.0",
+]
+
+[dependency-groups]
+dev = [
+    "jupyter>=1.1",
+    "ipykernel>=6.29",
+    "nbconvert>=7.16",
+]
