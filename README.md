@@ -8,6 +8,12 @@ Oxylabs Web Scraper API, compares prices, downloads product images, and answers 
 analytics dashboard. Every conversation is persisted in Postgres with **LangGraph
 checkpointers**, and a **hand-built summarization node** keeps long conversations cheap.
 
+![MarketPulse](docs/screenshots/main.png)
+
+| Ask a question, get cards + live analytics | The agent downloads product images |
+|---|---|
+| ![Query results](docs/screenshots/query.png) | ![Image gallery](docs/screenshots/images.png) |
+
 ![System architecture](diagrams/01_system_architecture.png)
 
 ## What this project teaches
