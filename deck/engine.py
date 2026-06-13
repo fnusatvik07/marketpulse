@@ -80,7 +80,8 @@ def line(x1,y1,x2,y2,stroke=LINE,sw=1,opacity=1,dash=None):
     d=f' stroke-dasharray="{dash}"' if dash else ""
     return f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{stroke}" stroke-width="{sw}" opacity="{opacity}"{d}/>'
 def pill(x,y,label,fill="none",stroke=BLUE,text_fill=BLUE,size=15,pad=16,h=30):
-    w=tw(label,F_SEMI,size)+pad*2
+    # width must include the 1.5px letter-spacing the text is drawn with
+    w=tw(label,F_SEMI,size)+pad*2+1.5*len(label)
     return (rrect(x,y,w,h,h/2,fill=fill,stroke=stroke,sw=1.4)+
             txt(x+w/2,y+h/2+size*0.36,label,size,text_fill,FAM_BODY,600,"middle",1.5)),w
 def arrow(x1,y,x2,color=BLUE):

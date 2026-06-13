@@ -157,11 +157,11 @@ def s_architecture(p):
     b.append(arrow(216, 348, 280, BORDER2))
     b.append(arrow(454, 348, 518, BORDER2))
     b.append(line(730, 322, 818, 232, SKYBLUE, 2)); b.append(f'<path d="M810 228 L822 230 L814 240 Z" fill="{SKYBLUE}"/>')
-    b.append(lbl(786, 262, "thinks"))
+    b.append(txt(748, 254, "thinks", 13.5, MUTE, FAM_BODY, 600, "end"))
     b.append(arrow(732, 348, 818, BLUE)); b.append(lbl(775, 338, "tool calls"))
     b.append(arrow(1002, 348, 1062, "#FF9900")); b.append(lbl(1032, 338, "scrapes"))
     b.append(line(730, 380, 818, 470, "#4169E1", 2)); b.append(f'<path d="M810 472 L822 470 L816 460 Z" fill="#4169E1"/>')
-    b.append(lbl(790, 442, "checkpoints"))
+    b.append(txt(744, 460, "checkpoints", 13.5, MUTE, FAM_BODY, 600, "end"))
     b.append(txt(84, 478, "thread_id", 15, BLUED, FAM_MONO, 600))
     for i, ln in enumerate(wrap("One id in the request config decides which conversation the agent wakes up in.", F_REG, 15.5, 350)):
         b.append(txt(84, 502 + i * 22, ln, 15.5, CAP, FAM_BODY, 400))
