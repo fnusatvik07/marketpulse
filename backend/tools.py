@@ -25,6 +25,39 @@ from langchain_core.tools import tool
 from . import config, oxylabs_client
 
 
+def _organic(content: dict) -> list:
+    """Pull the organic search results out of an amazon_search response.
+
+    Oxylabs returns `content["results"]` as either a dict
+    ({"organic": [...], "paid": [...]}) or, on some pages, a plain list.
+    This helper handles both so the tools never crash on the shape.
+    """
+    results = content.get("results")
+    if isinstance(results, dict):
+        return results.get("organic", []) or []
+    if isinstance(results, list):
+        return results
+    return []
+
+
+def _asin_from(text: str) -> str:
+    """Accept a raw ASIN or a full Amazon URL and return the 10-char ASIN.
+
+    Users often paste the whole product URL; the agent may pass it through.
+    Patterns like /dp/B07G11R5LC or ?ASIN=B07G11R5LC are extracted here.
+    """
+    text = (text or "").strip()
+    if re.fullmatch(r"[A-Z0-9]{10}", text):
+        return text
+    for pat in (r"/dp/([A-Z0-9]{10})", r"/gp/product/([A-Z0-9]{10})",
+                r"/product/([A-Z0-9]{10})", r"[?&]ASIN=([A-Z0-9]{10})",
+                r"\b([A-Z0-9]{10})\b"):
+        m = re.search(pat, text)
+        if m:
+            return m.group(1)
+    return text
+
+
 def _slim_search_item(item: dict) -> dict:
     return {
         "asin": item.get("asin"),
@@ -45,23 +78,47 @@ def search_products(query: str, max_results: int = 8) -> str:
     products with ASIN, title, price, rating and review count.
     Use this first when the user mentions a product by name."""
     content = oxylabs_client.scrape("amazon_search", query)
-    organic = content.get("results", {}).get("organic", [])
+    organic = _organic(content)
     items = [_slim_search_item(i) for i in organic if i.get("asin")][:max_results]
     return json.dumps({"query": query, "products": items})
 
 
+def _review_summary(c: dict) -> dict:
+    """Rating, star distribution and a few recent review snippets — the
+    data needed to compare products on their reviews."""
+    dist = {}
+    for row in c.get("rating_stars_distribution") or []:
+        if row.get("rating") is not None:
+            dist[f"{row['rating']}_star"] = row.get("percentage")
+    snippets = []
+    for rev in (c.get("reviews") or [])[:4]:
+        snippets.append({
+            "rating": rev.get("rating"),
+            "title": (rev.get("title") or "")[:80],
+            "text": (rev.get("content") or "")[:200],
+        })
+    return {
+        "rating": c.get("rating"),
+        "reviews_count": c.get("reviews_count"),
+        "star_distribution": dist or None,
+        "recent_reviews": snippets or None,
+    }
+
+
 @tool
 def get_product_details(asin: str) -> str:
-    """Get full details for one Amazon product by its 10-character ASIN:
-    price, original price, rating, reviews, stock, key features,
+    """Get full details for one Amazon product. Accepts a 10-character ASIN
+    or a full Amazon product URL. Returns price, original price, rating,
+    review summary with recent review snippets, stock, key features,
     sales rank and image URLs."""
+    asin = _asin_from(asin)
     c = oxylabs_client.scrape("amazon_product", asin, autoselect_variant=True)
     rank = None
-    if c.get("sales_rank"):
+    if isinstance(c.get("sales_rank"), list) and c["sales_rank"]:
         first = c["sales_rank"][0]
-        ladder = first.get("ladder", [])
+        ladder = first.get("ladder", []) if isinstance(first, dict) else []
         rank = {
-            "rank": first.get("rank"),
+            "rank": first.get("rank") if isinstance(first, dict) else None,
             "category": ladder[0]["name"] if ladder else None,
         }
     details = {
@@ -71,12 +128,11 @@ def get_product_details(asin: str) -> str:
         "price": c.get("price"),
         "price_strikethrough": c.get("price_initial") or None,
         "currency": c.get("currency"),
-        "rating": c.get("rating"),
-        "reviews_count": c.get("reviews_count"),
         "stock": c.get("stock"),
         "features": (c.get("bullet_points") or "")[:500],
         "sales_rank": rank,
         "images": (c.get("images") or [])[:6],
+        "reviews": _review_summary(c),
     }
     return json.dumps({"product": details})
 
@@ -93,19 +149,26 @@ def find_competitors(asin: str, max_competitors: int = 5) -> str:
     # tool is faster, cheaper and more predictable. Where to draw the
     # line between "one smart tool" vs "let the agent compose small
     # tools" is a real design decision in agent engineering.
+    asin = _asin_from(asin)
     c = oxylabs_client.scrape("amazon_product", asin, autoselect_variant=True)
     title = c.get("title") or ""
     brand = (c.get("brand") or c.get("manufacturer") or "").strip()
 
-    # Clean the title: drop the brand name and everything after the first
-    # comma, so "boAt Airdopes 219, 4Mics ENx..." becomes "Airdopes 219".
-    short = title.split(",")[0]
+    # Some product pages return a generic meta title like
+    # "Amazon.com: Conquest 41MM Quartz Watch : Clothing, Shoes & Jewelry".
+    # Strip that wrapper down to the part between the colons.
+    short = re.sub(r"^Amazon\.[a-z.]+:\s*", "", title)
+    short = short.split(" : ")[0]            # drop trailing " : Category" tail
+    short = short.split(",")[0]              # drop spec list after first comma
     if brand:
         short = re.sub(re.escape(brand), "", short, flags=re.IGNORECASE)
-    short = re.sub(r"\(.*?\)", "", short).strip() or title[:40]
+    short = re.sub(r"\(.*?\)", "", short).strip()
+    # Fall back to a brand search if cleaning left us with nothing useful.
+    if len(short) < 3:
+        short = brand or title[:40]
 
     content = oxylabs_client.scrape("amazon_search", short)
-    organic = content.get("results", {}).get("organic", [])
+    organic = _organic(content)
 
     competitors = []
     seen = {asin}
@@ -132,6 +195,7 @@ def download_product_images(asin: str, max_images: int = 4) -> str:
     """Download the product images for an ASIN to local storage so the
     user can view them in the app. Returns the local image paths.
     Use when the user asks to see, save or download product images."""
+    asin = _asin_from(asin)
     c = oxylabs_client.scrape("amazon_product", asin, autoselect_variant=True)
     urls = (c.get("images") or [])[:max_images]
 
