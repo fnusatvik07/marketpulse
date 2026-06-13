@@ -21,8 +21,24 @@ OXYLABS_MOCK = (
     or not (OXYLABS_USERNAME and OXYLABS_PASSWORD)
 )
 
-# Marketplace defaults
+# Marketplaces the user can choose at runtime (in the CLI or the UI).
+# code  -> the Oxylabs `domain` value + a human label + currency, for display.
+# This is the single source of truth; CLI and UI both read it.
+MARKETPLACES = {
+    "in": {"label": "India · amazon.in", "currency": "INR", "flag": "IN"},
+    "com": {"label": "United States · amazon.com", "currency": "USD", "flag": "US"},
+    "co.uk": {"label": "United Kingdom · amazon.co.uk", "currency": "GBP", "flag": "UK"},
+    "de": {"label": "Germany · amazon.de", "currency": "EUR", "flag": "DE"},
+    "ca": {"label": "Canada · amazon.ca", "currency": "CAD", "flag": "CA"},
+    "com.au": {"label": "Australia · amazon.com.au", "currency": "AUD", "flag": "AU"},
+    "ae": {"label": "UAE · amazon.ae", "currency": "AED", "flag": "AE"},
+    "co.jp": {"label": "Japan · amazon.co.jp", "currency": "JPY", "flag": "JP"},
+}
+
+# The default marketplace if the user does not pick one.
 AMAZON_DOMAIN = os.getenv("AMAZON_DOMAIN", "in")
+if AMAZON_DOMAIN not in MARKETPLACES:
+    AMAZON_DOMAIN = "in"
 
 # Memory
 POSTGRES_URI = os.getenv(

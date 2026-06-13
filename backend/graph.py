@@ -28,7 +28,7 @@ from langchain_openai import ChatOpenAI
 from langgraph.graph import END, START, MessagesState, StateGraph
 from langgraph.prebuilt import ToolNode, tools_condition
 
-from . import config
+from . import config, oxylabs_client
 from .tools import ALL_TOOLS
 
 
@@ -161,7 +161,9 @@ def agent_node(state: State):
     tool calls. We do not decide that; the model does. That decision is
     routed by `tools_condition` in build_graph below.
     """
-    system = SYSTEM_PROMPT.format(domain=f"amazon.{config.AMAZON_DOMAIN}")
+    market = oxylabs_client.get_marketplace()
+    label = config.MARKETPLACES.get(market, {}).get("label", f"amazon.{market}")
+    system = SYSTEM_PROMPT.format(domain=label)
     if state.get("summary"):
         system += f"\n\nSummary of the conversation so far:\n{state['summary']}"
 

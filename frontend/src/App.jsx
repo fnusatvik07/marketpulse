@@ -22,6 +22,8 @@ export default function App() {
   const [input, setInput] = useState('')
   const [mockMode, setMockMode] = useState(false)
   const [lastMs, setLastMs] = useState(null)
+  const [markets, setMarkets] = useState([])
+  const [domain, setDomain] = useState('in')
   const feedRef = useRef(null)
 
   const refreshThreads = useCallback(async () => {
@@ -47,6 +49,10 @@ export default function App() {
 
   useEffect(() => {
     api.health().then((h) => setMockMode(h.mock_mode)).catch(() => {})
+    api.marketplaces().then((m) => {
+      setMarkets(m.marketplaces)
+      setDomain(m.default)
+    }).catch(() => {})
     refreshThreads()
     loadThread('demo')
   }, [refreshThreads, loadThread])
@@ -64,7 +70,7 @@ export default function App() {
     const t0 = performance.now()
 
     try {
-      const res = await api.chat(activeThread, message)
+      const res = await api.chat(activeThread, message, domain)
       setLastMs(Math.round(performance.now() - t0))
       setTurns((t) => [
         ...t,
@@ -118,6 +124,16 @@ export default function App() {
             <span className="thread-label">Thread</span>
             <span className="thread-name">{activeThread}</span>
           </div>
+          <label className="market-select">
+            <span className="market-label">Marketplace</span>
+            <select value={domain} onChange={(e) => setDomain(e.target.value)}>
+              {markets.map((m) => (
+                <option key={m.code} value={m.code}>
+                  {m.flag} · amazon.{m.code} ({m.currency})
+                </option>
+              ))}
+            </select>
+          </label>
           <Ticker items={tickerItems} />
         </div>
 

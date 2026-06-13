@@ -23,10 +23,19 @@ from rich.console import Console
 from rich.markdown import Markdown
 from rich.panel import Panel
 
-from . import config, memory
+from . import config, memory, oxylabs_client
 from .graph import build_graph
 
 console = Console()
+
+
+def show_markets():
+    """List the marketplaces the user can switch to."""
+    active = oxylabs_client.get_marketplace()
+    console.print("[bold]Marketplaces[/bold] (switch with: /market <code>)")
+    for code, info in config.MARKETPLACES.items():
+        mark = "[green]●[/green]" if code == active else " "
+        console.print(f"  {mark} [cyan]{code:<7}[/cyan] {info['label']}  ({info['currency']})")
 
 
 def show_state(graph, cfg):
@@ -81,16 +90,22 @@ def run_turn(graph, cfg, text: str):
 def main():
     parser = argparse.ArgumentParser(description="MarketPulse CLI")
     parser.add_argument("--thread", default="cli-demo", help="thread id (a conversation)")
+    parser.add_argument("--market", default=config.AMAZON_DOMAIN,
+                        help="marketplace code: in, com, co.uk, de ...")
     args = parser.parse_args()
+
+    oxylabs_client.set_marketplace(args.market)
 
     checkpointer = memory.get_checkpointer()
     graph = build_graph(checkpointer)
     cfg = {"configurable": {"thread_id": args.thread}}
 
     mode = "MOCK (fixtures)" if config.OXYLABS_MOCK else "LIVE (Oxylabs)"
+    market_label = config.MARKETPLACES.get(oxylabs_client.get_marketplace(), {}).get("label", "")
     console.print(Panel(
         f"thread: [bold]{args.thread}[/bold]   scraping: [bold]{mode}[/bold]\n"
-        "commands: /state  /history  /threads  /quit",
+        f"marketplace: [bold]{market_label}[/bold]\n"
+        "commands: /state  /history  /threads  /markets  /market <code>  /quit",
         title="MarketPulse agent",
         border_style="blue",
     ))
@@ -112,6 +127,17 @@ def main():
             continue
         if text == "/threads":
             console.print(memory.list_threads(checkpointer))
+            continue
+        if text == "/markets":
+            show_markets()
+            continue
+        if text.startswith("/market "):
+            code = text.split(" ", 1)[1].strip()
+            if code in config.MARKETPLACES:
+                oxylabs_client.set_marketplace(code)
+                console.print(f"[green]switched to[/green] {config.MARKETPLACES[code]['label']}")
+            else:
+                console.print(f"[red]unknown marketplace '{code}'[/red] — try /markets")
             continue
         run_turn(graph, cfg, text)
 

@@ -25,7 +25,7 @@ from fastapi.staticfiles import StaticFiles
 from langchain_core.messages import HumanMessage
 from pydantic import BaseModel
 
-from . import config, memory
+from . import config, memory, oxylabs_client
 from .graph import build_graph
 
 logging.basicConfig(level=logging.INFO)
@@ -57,6 +57,7 @@ app.mount("/downloads", StaticFiles(directory=config.DOWNLOADS_DIR), name="downl
 class ChatRequest(BaseModel):
     thread_id: str
     message: str
+    domain: str | None = None   # marketplace code, e.g. "in", "com"; None = default
 
 
 def _collect_turn_artifacts(messages, user_message: str):
@@ -105,6 +106,10 @@ def chat(req: ChatRequest):
     # the checkpointer loads the saved state and the conversation
     # continues. New thread_id -> blank conversation. This one dict is
     # the entire multi-user story.
+    # Pick the marketplace for this turn's scrapes (US, India, UK, ...).
+    if req.domain:
+        oxylabs_client.set_marketplace(req.domain)
+
     cfg = {"configurable": {"thread_id": req.thread_id}}
     try:
         result = graph.invoke({"messages": [HumanMessage(content=req.message)]}, cfg)
@@ -155,6 +160,18 @@ def thread_state(thread_id: str):
     }
 
 
+@app.get("/marketplaces")
+def marketplaces():
+    """The marketplaces a user can pick, for the CLI list and the UI dropdown."""
+    return {
+        "default": config.AMAZON_DOMAIN,
+        "marketplaces": [
+            {"code": code, **info} for code, info in config.MARKETPLACES.items()
+        ],
+    }
+
+
 @app.get("/health")
 def health():
-    return {"status": "ok", "mock_mode": config.OXYLABS_MOCK}
+    return {"status": "ok", "mock_mode": config.OXYLABS_MOCK,
+            "default_marketplace": config.AMAZON_DOMAIN}

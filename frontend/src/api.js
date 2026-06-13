@@ -16,11 +16,12 @@ export const api = {
   threads: () => get('/threads'),
   history: (threadId) => get(`/threads/${encodeURIComponent(threadId)}/history`),
   state: (threadId) => get(`/threads/${encodeURIComponent(threadId)}/state`),
-  chat: async (threadId, message) => {
+  marketplaces: () => get('/marketplaces'),
+  chat: async (threadId, message, domain) => {
     const res = await fetch(`${BASE}/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ thread_id: threadId, message }),
+      body: JSON.stringify({ thread_id: threadId, message, domain }),
     })
     if (!res.ok) {
       const detail = await res.json().catch(() => ({}))

@@ -128,6 +128,19 @@ One continuous conversation that exercises everything:
 In the CLI (`just cli`) the same conversation shows every tool call and the
 summarization event as they happen — best view for teaching the loop.
 
+## Switching marketplace (India, US, UK, ...)
+
+The agent can scrape any Amazon marketplace. Pick one at runtime, three ways:
+
+- **UI**: the Marketplace dropdown in the top bar.
+- **CLI**: start with `just cli --market com`, or switch mid-session with
+  `/market com` (and `/markets` to list them).
+- **API**: pass `"domain": "com"` in the `POST /chat` body. `GET /marketplaces`
+  returns the full list.
+
+Supported: `in`, `com`, `co.uk`, `de`, `ca`, `com.au`, `ae`, `co.jp` (edit
+`MARKETPLACES` in `backend/config.py` to add more).
+
 ## Postman collection
 
 `postman/MarketPulse.postman_collection.json` has two folders, runnable live in class:
@@ -162,7 +175,7 @@ API docs: http://localhost:8010/docs
 | Variable | Default | Meaning |
 |----------|---------|---------|
 | `OPENAI_MODEL` | `gpt-4o-mini` | The agent's brain |
-| `AMAZON_DOMAIN` | `in` | Marketplace (`com`, `co.uk`, `de`, ...) |
+| `AMAZON_DOMAIN` | `in` | Default marketplace; switch live in the UI dropdown or CLI `/market` |
 | `MAX_MESSAGES` | `12` | Summarization trigger |
 | `KEEP_LAST` | `6` | Recent messages kept verbatim |
 | `OXYLABS_MOCK` | auto | Force mock mode even with credentials |

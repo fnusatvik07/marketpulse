@@ -52,9 +52,9 @@ run: db
     sleep 2
     cd frontend && npm run dev
 
-# Chat with the agent in the terminal (great for demos)
-cli thread="cli-demo": db
-    uv run python -m backend.cli --thread {{thread}}
+# Chat with the agent in the terminal. Optional marketplace: just cli cli-demo com
+cli thread="cli-demo" market="in": db
+    uv run python -m backend.cli --thread {{thread}} --market {{market}}
 
 # CLI with mock data
 cli-mock thread="cli-demo": db
