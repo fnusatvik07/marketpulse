@@ -11,5 +11,19 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  # Visual database viewer. Opens in a browser already connected to the
+  # checkpoints database, so you can show real memory rows arriving live.
+  # Purely for viewing; the application never touches it.
+  pgweb:
+    image: sosedoff/pgweb:latest
+    container_name: marketpulse-pgweb
+    environment:
+      # connects over the docker network to the postgres service above
+      PGWEB_DATABASE_URL: postgresql://postgres:postgres@postgres:5432/marketpulse?sslmode=disable
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres
+
 volumes:
   pgdata:

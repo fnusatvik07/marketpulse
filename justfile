@@ -72,6 +72,11 @@ oxy n:
 psql:
     docker exec -it marketpulse-postgres psql -U postgres -d marketpulse
 
+# Open the visual database viewer (pgweb) in the browser
+viewer: db
+    @echo "Opening database viewer at http://localhost:8081"
+    @open http://localhost:8081 || xdg-open http://localhost:8081 || true
+
 # Re-export architecture diagrams from .drawio to .png
 diagrams:
     cd diagrams && for f in *.drawio; do drawio -x -f png -s 2 --crop -o "${f%.drawio}.png" "$f"; done

@@ -104,6 +104,7 @@ Run `just` with no arguments to see this list.
 | `just cli-mock` | CLI with mock data |
 | `just notebooks` | Open the concept notebooks in Jupyter |
 | `just psql` | psql shell into the checkpoints database |
+| `just viewer` | open the visual database viewer (pgweb) in the browser |
 | `just diagrams` | Re-export the architecture diagrams to PNG |
 | `just clean` | Stop Postgres, remove caches |
 
@@ -126,6 +127,23 @@ One continuous conversation that exercises everything:
 
 In the CLI (`just cli`) the same conversation shows every tool call and the
 summarization event as they happen — best view for teaching the loop.
+
+## Postman collection
+
+`postman/MarketPulse.postman_collection.json` has two folders, runnable live in class:
+
+1. **Oxylabs Web Scraper API** — the raw scraping requests (search, product, bestsellers, pricing, universal).
+2. **MarketPulse application API** — health, chat, the memory-proof follow-up, image download, threads, state.
+
+Import the collection plus `postman/MarketPulse.postman_environment.json`, then fill
+in your Oxylabs username/password in the environment. Start the backend (`just run`)
+before using folder 2.
+
+## Visual database viewer
+
+`docker compose up` also starts **pgweb** — a browser UI already connected to the
+checkpoints database. Run `just viewer` (or open http://localhost:8081) to show the
+class real memory rows appearing live as the agent talks.
 
 ## Useful endpoints
 

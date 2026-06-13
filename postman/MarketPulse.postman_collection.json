@@ -1,0 +1,215 @@
+{
+  "info": {
+    "name": "MarketPulse · Oxylabs + Application API",
+    "description": "Everything taught in class, runnable live.\n\nFolder 1 hits the Oxylabs Web Scraper API directly (the data layer).\nFolder 2 hits the MarketPulse backend (the agent with memory).\n\nSetup: import the environment file next to this collection and fill in your Oxylabs credentials. Start the backend with `just run` before using folder 2.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1 · Oxylabs Web Scraper API",
+      "description": "One endpoint, many sources. Every request below is the same POST to realtime.oxylabs.io — only the `source` and `query` change. Auth is plain HTTP Basic with your Oxylabs API credentials.",
+      "auth": {
+        "type": "basic",
+        "basic": [
+          { "key": "username", "value": "{{oxylabs_username}}", "type": "string" },
+          { "key": "password", "value": "{{oxylabs_password}}", "type": "string" }
+        ]
+      },
+      "item": [
+        {
+          "name": "01 · Amazon search (first request)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "https://realtime.oxylabs.io/v1/queries", "protocol": "https", "host": ["realtime", "oxylabs", "io"], "path": ["v1", "queries"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source\": \"amazon_search\",\n  \"domain\": \"in\",\n  \"query\": \"wireless earbuds\",\n  \"parse\": true\n}"
+            },
+            "description": "The hello-world of the Web Scraper API: scrape an amazon.in search results page and get parsed JSON back. Look at results[0].content.results.organic — every product has asin, title, price, rating, reviews_count."
+          }
+        },
+        {
+          "name": "02 · Amazon product by ASIN",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "https://realtime.oxylabs.io/v1/queries", "protocol": "https", "host": ["realtime", "oxylabs", "io"], "path": ["v1", "queries"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source\": \"amazon_product\",\n  \"domain\": \"in\",\n  \"query\": \"B0FC2YFSN4\",\n  \"parse\": true,\n  \"context\": [\n    { \"key\": \"autoselect_variant\", \"value\": true }\n  ]\n}"
+            },
+            "description": "Full product page for one ASIN (boAt Airdopes 219): price, stock, rating distribution, sales rank, image URLs. autoselect_variant gives accurate buybox pricing for products with variations."
+          }
+        },
+        {
+          "name": "03 · Amazon bestsellers",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "https://realtime.oxylabs.io/v1/queries", "protocol": "https", "host": ["realtime", "oxylabs", "io"], "path": ["v1", "queries"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source\": \"amazon_bestsellers\",\n  \"domain\": \"in\",\n  \"query\": \"electronics\",\n  \"parse\": true\n}"
+            },
+            "description": "The bestseller list for a category. Same endpoint, different source value — that is the whole pattern."
+          }
+        },
+        {
+          "name": "04 · Amazon pricing (all offers for an ASIN)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "https://realtime.oxylabs.io/v1/queries", "protocol": "https", "host": ["realtime", "oxylabs", "io"], "path": ["v1", "queries"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source\": \"amazon_pricing\",\n  \"domain\": \"in\",\n  \"query\": \"B0FC2YFSN4\",\n  \"parse\": true\n}"
+            },
+            "description": "Every seller offering this product: who owns the buybox, who undercuts whom."
+          }
+        },
+        {
+          "name": "05 · Universal (any website, raw HTML)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "https://realtime.oxylabs.io/v1/queries", "protocol": "https", "host": ["realtime", "oxylabs", "io"], "path": ["v1", "queries"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source\": \"universal\",\n  \"url\": \"https://books.toscrape.com/\"\n}"
+            },
+            "description": "No dedicated parser? source=universal scrapes ANY public URL through the Oxylabs proxy network and returns raw HTML."
+          }
+        }
+      ]
+    },
+    {
+      "name": "2 · MarketPulse application API",
+      "description": "The backend we built: a LangGraph agent behind FastAPI with Postgres checkpointer memory. Start it first: `just run` (or `just backend`). Run the requests top to bottom — the follow-up question only works because of short-term memory.",
+      "item": [
+        {
+          "name": "01 · Health check",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('backend is up', () => pm.response.to.have.status(200));",
+                  "pm.test('mode', () => console.log('mock_mode:', pm.response.json().mock_mode));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/health", "host": ["{{base_url}}"], "path": ["health"] },
+            "description": "Is the backend alive, and is it scraping live or serving mock fixtures?"
+          }
+        },
+        {
+          "name": "02 · Chat — ask the agent (tool calls happen here)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('agent replied', () => pm.response.to.have.status(200));",
+                  "const r = pm.response.json();",
+                  "console.log('tools used:', r.tool_calls.map(t => t.name).join(', '));",
+                  "console.log('products returned:', r.products.length);",
+                  "console.log('messages in thread:', r.message_count);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/chat", "host": ["{{base_url}}"], "path": ["chat"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"thread_id\": \"{{thread_id}}\",\n  \"message\": \"Search for wireless earbuds under 1500 rupees and show me the top 3 by rating\"\n}"
+            },
+            "description": "One question in, and the agent decides to call search_products itself. The response carries the reply, the tool calls it made, structured product data, and the current memory stats. Takes 10-30s — the scraping is live."
+          }
+        },
+        {
+          "name": "03 · Chat — follow-up (memory proof)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('agent remembered', () => pm.response.to.have.status(200));",
+                  "console.log(pm.response.json().reply.slice(0, 200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/chat", "host": ["{{base_url}}"], "path": ["chat"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"thread_id\": \"{{thread_id}}\",\n  \"message\": \"Which of those was the cheapest, and is it worth it?\"\n}"
+            },
+            "description": "'Of those' only makes sense if the agent remembers request 02. Same thread_id = same conversation, loaded from the Postgres checkpointer. Change the thread_id and ask again — it will have no idea what you mean. That is the whole lesson."
+          }
+        },
+        {
+          "name": "04 · Chat — download product images",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/chat", "host": ["{{base_url}}"], "path": ["chat"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"thread_id\": \"{{thread_id}}\",\n  \"message\": \"Download the images of the top rated one\"\n}"
+            },
+            "description": "The agent picks the ASIN from conversation memory and calls download_product_images. The response's images[].paths are served by request 08."
+          }
+        },
+        {
+          "name": "05 · List all threads",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/threads", "host": ["{{base_url}}"], "path": ["threads"] },
+            "description": "Every conversation in the checkpointer — read straight from the Postgres checkpoints table."
+          }
+        },
+        {
+          "name": "06 · Thread history",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/threads/{{thread_id}}/history", "host": ["{{base_url}}"], "path": ["threads", "{{thread_id}}", "history"] },
+            "description": "The saved conversation. Restart the backend and call this again — identical. The Python process holds nothing."
+          }
+        },
+        {
+          "name": "07 · Thread state (summary + checkpoints)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/threads/{{thread_id}}/state", "host": ["{{base_url}}"], "path": ["threads", "{{thread_id}}", "state"] },
+            "description": "Memory telemetry: message count vs the 12-message threshold, number of checkpoints saved, and the running summary once the summarization node has fired. Keep chatting past 12 messages and watch `summary` fill in."
+          }
+        },
+        {
+          "name": "08 · Fetch a downloaded image",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/downloads/B0FC2YFSN4/image_1.jpg", "host": ["{{base_url}}"], "path": ["downloads", "B0FC2YFSN4", "image_1.jpg"] },
+            "description": "Static serving of images the agent downloaded. Adjust the ASIN to match request 04's response (images[].paths)."
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:8010" },
+    { "key": "thread_id", "value": "postman-demo" }
+  ]
+}
