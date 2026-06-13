@@ -21,6 +21,10 @@ from . import config
 
 logger = logging.getLogger(__name__)
 
+# The pool retries in the background and logs every failed attempt, which
+# floods the terminal when Postgres is down. We fail fast below instead.
+logging.getLogger("psycopg.pool").setLevel(logging.CRITICAL)
+
 
 def get_checkpointer():
     """Return a ready-to-use checkpointer. Tries Postgres first."""
@@ -30,8 +34,12 @@ def get_checkpointer():
         pool = ConnectionPool(
             conninfo=config.POSTGRES_URI,
             max_size=10,
+            open=False,
             kwargs={"autocommit": True, "prepare_threshold": 0, "row_factory": dict_row},
         )
+        # Try to connect for 5 seconds, then give up and fall back,
+        # instead of retrying forever with a wall of error logs.
+        pool.open(wait=True, timeout=5)
         checkpointer = PostgresSaver(pool)
 
         # setup() creates the checkpoint tables. It only does real work the

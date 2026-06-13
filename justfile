@@ -6,16 +6,31 @@ set dotenv-load := false
 default:
     @just --list
 
-# One-time setup: Python deps + frontend deps
+# One-time setup: Python deps + frontend deps + database, everything
 setup:
     uv sync --group dev
     cd frontend && npm install
-    @echo "Setup done. Copy .env.example to .env and add your keys if you have not."
+    just db
+    @echo ""
+    @echo "Setup complete. Next:  just cli   or   just run"
+    @echo "(Keys go in .env — copy .env.example if you have not.)"
 
-# Start Postgres (Docker)
+# Start Postgres (Docker) and wait until it accepts connections
 db:
+    #!/usr/bin/env bash
+    if ! docker info >/dev/null 2>&1; then
+        echo "Docker is not running. Start Docker Desktop first, then re-run."
+        exit 1
+    fi
     docker compose up -d
-    @echo "Postgres running on localhost:5442"
+    for i in $(seq 1 30); do
+        if docker exec marketpulse-postgres pg_isready -U postgres >/dev/null 2>&1; then
+            echo "Postgres ready on localhost:5442"
+            exit 0
+        fi
+        sleep 1
+    done
+    echo "Postgres did not become ready in 30s"; exit 1
 
 # Run the FastAPI backend (live Oxylabs scraping)
 backend: db
@@ -38,11 +53,11 @@ run: db
     cd frontend && npm run dev
 
 # Chat with the agent in the terminal (great for demos)
-cli thread="cli-demo":
+cli thread="cli-demo": db
     uv run python -m backend.cli --thread {{thread}}
 
 # CLI with mock data
-cli-mock thread="cli-demo":
+cli-mock thread="cli-demo": db
     OXYLABS_MOCK=true uv run python -m backend.cli --thread {{thread}}
 
 # Open the concept notebooks (checkpointers + summarization)
