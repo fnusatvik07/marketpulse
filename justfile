@@ -49,6 +49,10 @@ cli-mock thread="cli-demo":
 notebooks:
     uv run jupyter lab concepts/
 
+# Run an Oxylabs concept script: just oxy 1 ... just oxy 5 (live scraping)
+oxy n:
+    uv run python oxylabs_concepts/0{{n}}_*.py
+
 # Open a psql shell to inspect the checkpoints table live in class
 psql:
     docker exec -it marketpulse-postgres psql -U postgres -d marketpulse
