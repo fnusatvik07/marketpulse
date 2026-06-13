@@ -9,3 +9,6 @@ frontend/dist/
 .ipynb_checkpoints/
 .DS_Store
 TEACHING_GUIDE.md
+deck/out/
+deck/fonts/
+deck/__pycache__/
