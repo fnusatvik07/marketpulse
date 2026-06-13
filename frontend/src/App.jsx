@@ -178,10 +178,17 @@ export default function App() {
               send()
             }}
           >
-            <input
+            <textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about products, prices, competitors…"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault()
+                  send()
+                }
+              }}
+              placeholder="Ask about products, prices, competitors…  (Enter to send, Shift+Enter for a new line)"
+              rows={2}
               disabled={busy}
               autoFocus
             />

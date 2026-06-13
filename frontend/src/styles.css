@@ -289,6 +289,9 @@ body {
   padding: 12px 18px;
   font-size: 15px;
   color: var(--ink);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: pre-wrap;   /* keep the user's line breaks */
 }
 
 /* agent message: plain text on the page, like the best chat products */
@@ -304,6 +307,25 @@ body {
 .turn.agent .bubble.error { color: var(--oxblood); }
 
 /* markdown */
+/* keep all reply content inside the chat column: wrap long words/links */
+.bubble { overflow-wrap: anywhere; word-break: break-word; }
+.bubble a { color: var(--ledger); word-break: break-all; }
+
+/* any image the agent includes in its reply stays small and tidy */
+.bubble img {
+  max-width: 160px;
+  max-height: 160px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: #fff;
+  padding: 4px;
+  margin: 6px 8px 6px 0;
+  vertical-align: top;
+}
+
 .bubble p { margin-bottom: 12px; }
 .bubble p:last-child { margin-bottom: 0; }
 .bubble strong { color: var(--ink); font-weight: 700; }
@@ -579,7 +601,7 @@ body {
   margin: 0 auto;
   display: flex;
   gap: 0;
-  align-items: stretch;
+  align-items: flex-end;   /* button sits at the bottom as the textarea grows */
   background: var(--card);
   border: 1px solid var(--rule);
   border-radius: 14px;
@@ -592,18 +614,23 @@ body {
 
 .prompt-sigil { display: none; }
 
-.composer input {
+.composer textarea {
   flex: 1;
   background: none;
   border: none;
   color: var(--ink);
   font-family: var(--sans);
   font-size: 15px;
+  line-height: 1.5;
   padding: 10px 14px;
   outline: none;
+  resize: none;            /* no manual drag handle; rows control height */
+  min-height: 52px;        /* ~2 lines */
+  max-height: 160px;       /* ~6 lines, then scrolls */
+  overflow-y: auto;
 }
 
-.composer input::placeholder { color: var(--ink-faint); }
+.composer textarea::placeholder { color: var(--ink-faint); }
 
 .composer button {
   background: var(--ledger);
@@ -614,6 +641,7 @@ body {
   font-weight: 600;
   font-size: 14px;
   padding: 0 22px;
+  height: 40px;            /* fixed height, anchored to the bottom of the form */
   cursor: pointer;
   transition: all 0.15s;
 }
