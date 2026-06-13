@@ -15,7 +15,9 @@ Three things to point out when reading them:
   3. Tools are plain Python. Scraping, file downloads, anything. The
      agent does not know how they work inside, only their signatures.
 """
+import functools
 import json
+import logging
 import re
 from pathlib import Path
 
@@ -23,6 +25,26 @@ import requests
 from langchain_core.tools import tool
 
 from . import config, oxylabs_client
+
+logger = logging.getLogger(__name__)
+
+
+def safe(fn):
+    """A tool should RETURN an error, never raise it.
+
+    If a tool raises, the graph crashes mid-turn and can leave the thread in a
+    broken state (an assistant tool-call with no tool result, which the LLM API
+    then rejects on every later turn). Catching here means the agent always
+    gets a result it can reason about and recover from.
+    """
+    @functools.wraps(fn)
+    def wrapper(*args, **kwargs):
+        try:
+            return fn(*args, **kwargs)
+        except Exception as exc:  # noqa: BLE001 - deliberately broad
+            logger.exception("tool %s failed", fn.__name__)
+            return json.dumps({"error": f"{type(exc).__name__}: {exc}"})
+    return wrapper
 
 
 def _organic(content: dict) -> list:
@@ -73,6 +95,7 @@ def _slim_search_item(item: dict) -> dict:
 
 
 @tool
+@safe
 def search_products(query: str, max_results: int = 8) -> str:
     """Search Amazon for products by keywords. Returns a JSON list of
     products with ASIN, title, price, rating and review count.
@@ -106,6 +129,7 @@ def _review_summary(c: dict) -> dict:
 
 
 @tool
+@safe
 def get_product_details(asin: str) -> str:
     """Get full details for one Amazon product. Accepts a 10-character ASIN
     or a full Amazon product URL. Returns price, original price, rating,
@@ -138,6 +162,7 @@ def get_product_details(asin: str) -> str:
 
 
 @tool
+@safe
 def find_competitors(asin: str, max_competitors: int = 5) -> str:
     """Find competing products for a given ASIN. Scrapes the product,
     searches Amazon with a cleaned version of its title, and returns
@@ -191,6 +216,7 @@ def find_competitors(asin: str, max_competitors: int = 5) -> str:
 
 
 @tool
+@safe
 def download_product_images(asin: str, max_images: int = 4) -> str:
     """Download the product images for an ASIN to local storage so the
     user can view them in the app. Returns the local image paths.

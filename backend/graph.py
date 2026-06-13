@@ -83,6 +83,38 @@ def _transcript(messages) -> str:
     return "\n".join(lines)
 
 
+def _repair_removes(messages):
+    """Find messages that would make the OpenAI API reject the request, and
+    return RemoveMessage ops to delete them.
+
+    The API rule: every assistant message with tool_calls MUST be followed by
+    a tool message for each call id. If a previous turn crashed after the
+    agent asked for a tool but before the tool result was saved, the thread is
+    left with a 'dangling' tool call and every later turn fails with a 400.
+    We heal it by dropping the dangling assistant message (and any partial
+    tool replies to it).
+    """
+    answered = {m.tool_call_id for m in messages if m.type == "tool"}
+    dangling_ai_ids, dangling_call_ids = set(), set()
+    for m in messages:
+        if m.type == "ai" and getattr(m, "tool_calls", None):
+            call_ids = [tc["id"] for tc in m.tool_calls]
+            if not all(cid in answered for cid in call_ids):
+                dangling_ai_ids.add(m.id)
+                dangling_call_ids.update(call_ids)
+
+    if not dangling_ai_ids:
+        return []
+
+    removes = [RemoveMessage(id=mid) for mid in dangling_ai_ids]
+    # also drop any tool messages that answered the removed assistant message,
+    # so we never leave an orphaned tool message behind
+    for m in messages:
+        if m.type == "tool" and m.tool_call_id in dangling_call_ids:
+            removes.append(RemoveMessage(id=m.id))
+    return removes
+
+
 # ---------------------------------------------------------------------------
 # 2. THE SUMMARIZATION NODE  (short-term memory management)
 # ---------------------------------------------------------------------------
@@ -102,9 +134,17 @@ def summarize_node(state: State):
     """
     messages = state["messages"]
 
+    # 0. REPAIR: heal any dangling tool call left by a previous crashed turn,
+    # otherwise the OpenAI API rejects the whole thread. Apply the removals to
+    # our local copy too so summarization below works on the clean history.
+    repair = _repair_removes(messages)
+    if repair:
+        gone = {r.id for r in repair}
+        messages = [m for m in messages if m.id not in gone]
+
     # 1. TRIGGER: nothing to do while the conversation is short.
     if len(messages) <= config.MAX_MESSAGES:
-        return {}
+        return {"messages": repair} if repair else {}
 
     # 2. SPLIT: keep the last KEEP_LAST messages... but never cut in the
     # middle of a tool-call sequence. We slide the cut point forward until
@@ -117,7 +157,7 @@ def summarize_node(state: State):
 
     old = messages[:cut]
     if len(old) < 2:
-        return {}
+        return {"messages": repair} if repair else {}
 
     # 3. COMPRESS: merge the old messages into the existing summary.
     existing = state.get("summary", "")
@@ -140,9 +180,10 @@ def summarize_node(state: State):
 
     # Returning RemoveMessage objects tells the messages reducer to DELETE
     # those messages from state. This is the trick that shrinks the thread.
+    # (repair removes are included so a healed dangling message also goes.)
     return {
         "summary": summary,
-        "messages": [RemoveMessage(id=m.id) for m in old],
+        "messages": repair + [RemoveMessage(id=m.id) for m in old],
     }
 
 
